@@ -5,7 +5,8 @@
  * Date: 11.03.2018
  * Time: 16:30
  */
-require_once(realpath(__DIR__ . '\..\settings\settings.php'));
+$settingsDir = realpath(__DIR__ . '/../settings');
+require_once($settingsDir . DIRECTORY_SEPARATOR . 'settings.php');
 
 function getAllUser($DBH)
 {

@@ -5,8 +5,9 @@
  * Date: 11.03.2018
  * Time: 1:30
  */
-require_once(realpath(__DIR__ . '\..\settings\settings.php'));
-
+session_start();
+$settingsDir = realpath(__DIR__ . '/../settings');
+require_once($settingsDir . DIRECTORY_SEPARATOR . 'settings.php');
 function getAllUser($DBH)
 {
     $STH = $DBH->query('SELECT `email` from burger.users');
@@ -20,13 +21,17 @@ function getAllUser($DBH)
 
 function getIdUser($DBH, $email)
 {
-    $STH = $DBH->prepare("SELECT * FROM burger.users WHERE email='$email'");
-    $STH->execute();
-    $userId = 0;
-    while ($row = $STH->fetch()) {
-        $userId = $row['id'];
+    if (!$_SESSION['auth']) {
+        $STH = $DBH->prepare("SELECT * FROM burger.users WHERE email='$email'");
+        $STH->execute();
+        $userId = 0;
+        while ($row = $STH->fetch()) {
+            $userId = $row['id'];
+        }
+        $_SESSION['auth'] = $userId;
+        return $userId;
     }
-    return $userId;
+    return $userId = $_SESSION['auth'];
 }
 
 function addOrGetUser($DBH, $email, $emailArray, $name, $phone)

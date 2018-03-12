@@ -6,11 +6,15 @@
  * Time: 1:38
  */
 
-$host = '127.0.0.1:3307';
-$db = 'burger';
-$user = 'root';
-$password = '';
-$charset = 'utf8';
+$config = include('config.php');
+$config = $config['db'];
+
+$host = $config["host"];
+$db = $config["dbname"];
+$charset = $config["charset"];
+$user = $config["user"];
+$password = $config["password"];
+
 $dsn = "mysql:host=$host; dbname=$db;charset=$charset";
 
 try {
